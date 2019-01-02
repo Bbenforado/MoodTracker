@@ -59,6 +59,7 @@ public class FragmentPage extends Fragment {
         int image = getArguments().getInt(KEY_IMAGE, -1);
 
         relativeLayout.setBackgroundColor(color);
+        imageView.setImageResource(image);
 
         return result;
     }

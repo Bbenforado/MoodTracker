@@ -9,6 +9,7 @@ import com.example.blanche.moodtracker.R;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
+    private static int NUMBER_OF_PAGES = 5;
 
     //array of color
     private int[] backgroundColorsList;
@@ -38,6 +39,6 @@ public class PageAdapter extends FragmentPagerAdapter {
     //number of pages to show
     @Override
     public int getCount() {
-        return 5;
+        return NUMBER_OF_PAGES;
     }
 }

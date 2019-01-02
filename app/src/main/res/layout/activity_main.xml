@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
-    xmlns:android1="http://schemas.android.com/apk/res/android"
-    android1:id="@+id/activity_main_viewPager"
-    android1:layout_width="match_parent"
-    android1:layout_height="match_parent" />
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.blanche.moodtracker.controller.MainActivity">
+
+        <com.example.blanche.moodtracker.controller.VerticalViewPager
+            android:id="@+id/activity_main_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+</RelativeLayout>

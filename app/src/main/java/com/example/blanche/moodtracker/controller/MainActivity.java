@@ -1,4 +1,4 @@
-package com.example.blanche.moodtracker;
+package com.example.blanche.moodtracker.controller;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -7,26 +7,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.adapters.PageAdapter;
+import com.example.blanche.moodtracker.controller.VerticalViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    //PageAdapter pageAdapter;
+    VerticalViewPager verticalViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.configureViewPager();
+        this.configureVerticalViewPager();
     }
 
 
-    private void configureViewPager() {
+    private void configureVerticalViewPager() {
         //get the view viewPager with the id
-        ViewPager viewPager = findViewById(R.id.activity_main_viewPager);
+        verticalViewPager = findViewById(R.id.activity_main_viewPager);
         //set the adapter to the view Pager
-        viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), getResources().getIntArray(R.array.backgroundColors)) {
+        verticalViewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), getResources().getIntArray(R.array.backgroundColors)) {
         });
 
     }
