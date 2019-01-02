@@ -1,8 +1,14 @@
 package com.example.blanche.moodtracker.adapters;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.blanche.moodtracker.Fragments.FragmentPage;
 import com.example.blanche.moodtracker.R;
@@ -41,4 +47,10 @@ public class PageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return NUMBER_OF_PAGES;
     }
+
+
+
+
+
+
 }
