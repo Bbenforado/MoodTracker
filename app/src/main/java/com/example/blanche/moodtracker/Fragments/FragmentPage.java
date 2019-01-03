@@ -31,6 +31,7 @@ public class FragmentPage extends Fragment {
 
 
 
+
     public FragmentPage() {
         // Required empty public constructor
     }
@@ -49,11 +50,15 @@ public class FragmentPage extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.fragment_fragment_page, container, false);
+
+
 
         //on recupère les vues dont on a besoin
         RelativeLayout relativeLayout = result.findViewById(R.id.slideRelativeLayout);
@@ -63,6 +68,7 @@ public class FragmentPage extends Fragment {
         int position = getArguments().getInt(KEY_POSITION, -1);
         int color = getArguments().getInt(KEY_COLOR, -1);
         int image = getArguments().getInt(KEY_IMAGE, -1);
+
 
         initButtons(result);
 
@@ -98,7 +104,8 @@ public class FragmentPage extends Fragment {
                         .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //save the comment in a comment string
+                                //save the comment in the preferences
+                                //preferences.edit().putString("comment", )
 
 
                             }
