@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         //start the alarm
-        //setTheAlarm();
+        setTheAlarm();
 
         this.configureVerticalViewPager();
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         //si on a déjà selectionné une humeur, alors on set le current fragment à cette humeur, sinon on affiche le fragment par défaut
         if(lastMoodSelected != 0) {
-            verticalViewPager.setCurrentItem(lastMoodSelected);
+            verticalViewPager.setCurrentItem(lastMoodSelected-1);
         } else {
             verticalViewPager.setCurrentItem(2);
         }

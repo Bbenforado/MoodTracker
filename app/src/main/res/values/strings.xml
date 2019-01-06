@@ -2,4 +2,7 @@
     <string name="app_name">MoodTracker</string>
 
     <string name="hello_blank_fragment"></string>
+    <string name="noMood">Tu n\'as pas enregistré ton humeur ce jour là :("</string>
+    <string name="noHistoric">Pas d\'historique enregistré pour le moment... :(
+Va sauvegarder ton humeur du jour et reviens plus tard! :)</string>
 </resources>

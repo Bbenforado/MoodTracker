@@ -10,11 +10,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-import static com.example.blanche.moodtracker.controller.AlarmReceiver.KEY_ARRAY_MOOD;
 import static com.example.blanche.moodtracker.controller.MainActivity.APP_PREFERENCES;
 
 public class Utils {
 
+    public static final String KEY_ARRAY_MOOD = "arrayOfMood";
     private Mood[] arrayOfMood;
 
     //permet d'ajouter une nouvelle humeur

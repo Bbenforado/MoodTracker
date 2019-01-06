@@ -122,28 +122,5 @@ public class FragmentPage extends Fragment {
                  .show();
             }
         });
-        Button testButton = v.findViewById(R.id.testButton);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //recurring task here, will happen every 24h at midnight
-
-
-                System.out.println("button clicked");
-                //on récupere la currentmood (key_mood_selected) et le comment
-                SharedPreferences preferences = getContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-                int currentMoodSelected = preferences.getInt(KEY_MOOD_SELECTED, 0);
-                String currentComment = preferences.getString(KEY_COMMENT, null);
-                Mood currentMood;
-                    currentMood = new Mood(currentComment, currentMoodSelected);
-
-                //on le met dans un tableau de mood
-                utils.addMood(getContext(), currentMood);
-
-                //on remet les preferences à zero
-                preferences.edit().putInt(KEY_MOOD_SELECTED, 0).apply();
-                preferences.edit().putString(KEY_COMMENT, null).apply();
-            }
-        });
     }
 }
