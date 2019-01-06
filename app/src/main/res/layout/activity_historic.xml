@@ -11,7 +11,8 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text1"
             android:layout_width="match_parent"
@@ -35,7 +36,8 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text2"
             android:layout_width="match_parent"
@@ -62,7 +64,8 @@
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
      <TextView
             android:id="@+id/text3"
             android:layout_width="match_parent"
@@ -87,7 +90,8 @@
         android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text4"
             android:layout_width="match_parent"
@@ -114,7 +118,8 @@
         android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text5"
             android:layout_width="match_parent"
@@ -140,7 +145,8 @@
         android:id="@+id/relativeLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text6"
             android:layout_width="match_parent"
@@ -166,7 +172,8 @@
         android:id="@+id/relativeLayout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:elevation="5dp">
         <TextView
             android:id="@+id/text7"
             android:layout_width="match_parent"
