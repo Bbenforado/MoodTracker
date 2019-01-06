@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#e0e2e5"
     tools:context="com.example.blanche.moodtracker.controller.HistoricActivity">
 
     <TextView
@@ -12,49 +13,63 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text1"
-        android:background="@color/banana_yellow"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent" />
+
 
     <TextView
+        android:id="@+id/text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text2"
-        android:background="@color/cornflower_blue_65"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/text3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text3"
-        android:background="@color/banana_yellow"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/text4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text4"
-        android:background="@color/cornflower_blue_65"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/text5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text5"
-        android:background="@color/warm_grey"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/text6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text6"
-        android:background="@color/faded_red"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/text7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text7"
-        android:background="@color/light_sage"/>
+        android:paddingLeft="10dp"
+        android:background="@android:color/transparent"/>
 
 
 

@@ -1,34 +1,34 @@
 package com.example.blanche.moodtracker.controller;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+
 
 import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.adapters.PageAdapter;
-import com.example.blanche.moodtracker.controller.VerticalViewPager;
 
 import java.util.Calendar;
-import java.util.Date;
 
-import static android.text.format.DateUtils.DAY_IN_MILLIS;
 
 public class MainActivity extends AppCompatActivity {
 
     VerticalViewPager verticalViewPager;
     private SharedPreferences preferences;
     private int currentFragment;
-    public static final String KEY_CURRENT_FRAGMENT = "currentFragment";
-    public static final String KEY_TIME = "time";
-    public static final String KEY_DAY_ONE = "dayOne";
+    public static final String KEY_MOOD_SELECTED = "moodSelected";
+    public static final String APP_PREFERENCES = "appPreferences";
 
-    int i = 1;
+
+
+
+
+    private PendingIntent pendingIntent;
 
 
     @Override
@@ -36,17 +36,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getPreferences(MODE_PRIVATE);
+        preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
+        //start the alarm
+        //setTheAlarm();
 
         this.configureVerticalViewPager();
 
+        setTheDefaultFragment();
 
-        //si les preference avec l humeur selectionee sont remplies alors on set le current item à la derniere humeur selectionee
 
-        //set the default fragment to the happy smiley
-        verticalViewPager.setCurrentItem(1);
+
     }
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //get the current fragment selected
+        currentFragment = verticalViewPager.getCurrentItem()+1;
+        //save in the preferences the current mood selected
+        preferences.edit().putInt(KEY_MOOD_SELECTED, currentFragment).apply();
+    }
+
 
 
     private void configureVerticalViewPager() {
@@ -55,35 +68,32 @@ public class MainActivity extends AppCompatActivity {
         //set the adapter to the view Pager
         verticalViewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), getResources().getIntArray(R.array.backgroundColors)) {
         });
-
     }
 
+    private void setTheAlarm() {
+        //retreive a pending intent that will perform a broadcast
+        Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //get the last fragment selected
-        currentFragment = verticalViewPager.getCurrentItem();
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 00);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+     }
 
-        //si le temps écoulé entre le current time et le dernier temps enregistré est plus grand que le temps d'une journée en mllis
-        if (calendar.getTimeInMillis() - preferences.getLong(KEY_TIME, 0) > DAY_IN_MILLIS) {
-            //alors crée une nouvelle préférence qui enregistre la derniere humeur
-            preferences.edit().putInt("day" + i, currentFragment).apply();
-            //dans key time on enregistre le dernier temps
-            preferences.edit().putLong(KEY_TIME, calendar.getTimeInMillis()).apply();
-            i++;
+    private void setTheDefaultFragment() {
+        int lastMoodSelected = preferences.getInt(KEY_MOOD_SELECTED, 0);
+
+        //si on a déjà selectionné une humeur, alors on set le current fragment à cette humeur, sinon on affiche le fragment par défaut
+        if(lastMoodSelected != 0) {
+            verticalViewPager.setCurrentItem(lastMoodSelected);
         } else {
-            preferences.edit().putInt(KEY_DAY_ONE, currentFragment).apply();
-            preferences.edit().putLong(KEY_TIME, calendar.getTimeInMillis()).apply();
+            verticalViewPager.setCurrentItem(2);
         }
-        System.out.println("i = " + i);
-        System.out.println("day one = " + preferences.getInt("day 1", 0));
-        System.out.println("day two = " + preferences.getInt("day 2", 0));
-        System.out.println("day three = " + preferences.getInt("day 3", 0));
-        System.out.println("DAY_ONE = " + preferences.getInt(KEY_DAY_ONE, 0));
-
     }
 
 

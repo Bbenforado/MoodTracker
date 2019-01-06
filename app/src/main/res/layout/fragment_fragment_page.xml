@@ -22,6 +22,13 @@
         android:background="@drawable/ic_note_add_black"/>
 
     <Button
+        android:id="@+id/testButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click here to execute \nwhat's supposed to happen \at midnight!"/>
+
+
+    <Button
         android:id="@+id/historicButton"
         android:layout_width="50dp"
         android:layout_height="42dp"
