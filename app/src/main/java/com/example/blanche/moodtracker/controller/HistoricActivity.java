@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.models.Mood;
 
+import static com.example.blanche.moodtracker.controller.Utils.retrieveArrayOfMood;
 
 
 public class HistoricActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,11 +25,7 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
     private String[] textForTextView = {"Il y'a 7 jours", "Il y'a 6 jours", "Il y'a 5 jours", "Il y'a 4 jours",
             "Il y'a 3 jours", "Avant-hier", "Hier"};
     private Mood[] arrayHistoric = new Mood[7];
-    private Utils utils = new Utils();
-    private TextView text;
     ViewGroup.LayoutParams layoutParams;
-    private RelativeLayout relativeLayout;
-    private int width;
     private Button commentButton;
     private Button button1;
     private Button button2;
@@ -43,42 +40,33 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historic);
 
-
-
         this.displayHistoric();
         this.linkTheWidgets();
         this.setTheOnClickListener();
-
-        //quand un bouton est cliqué on disable es autres
-
-
+        //quand un bouton est cliqué on disable les autres
     }
 
     //display historic
     private void displayHistoric() {
-
-        arrayHistoric = utils.retrieveArrayOfMood(this);
+        arrayHistoric = retrieveArrayOfMood(this);
 
         for (int i = 0; i < arrayHistoric.length; i++) {
             int textViewId = getResources().getIdentifier("text" +(i+1), "id", getPackageName());
-            text = findViewById(textViewId);
+            TextView text = findViewById(textViewId);
             int layoutId = getResources().getIdentifier("relativeLayout"+(i+1), "id", getPackageName());
-            relativeLayout = findViewById(layoutId);
+            RelativeLayout relativeLayout = findViewById(layoutId);
             int buttonId = getResources().getIdentifier("button" +(i+1), "id", getPackageName());
             commentButton = findViewById(buttonId);
-
 
             if (arrayHistoric[i] != null) {
                 int mood = arrayHistoric[i].getMoodTag();
                 String comment = arrayHistoric[i].getComment();
                 if (comment == null) {
-                    //on n'affiche pas le bouton commentaire
                     commentButton.setVisibility(View.INVISIBLE);
                 } else {
-                    //on affiche le bouton commentaire
                     commentButton.setVisibility(View.VISIBLE);
                 }
-                width = this.getWidth();
+                int width = this.getWidth();
                 text.setText(textForTextView[i]);
 
                 switch (mood) {
@@ -121,7 +109,10 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    //get the width
+    /**
+     *
+     * @return the width of the window
+     */
     private int getWidth() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -130,16 +121,22 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
         return width;
     }
 
+    /**
+     * Display the comment of the mood in toast message
+     * @param v the comment button
+     */
     @Override
     public void onClick(View v) {
         setCommentToButton();
         String comment = v.getTag().toString();
         Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
-
     }
 
+    /**
+     * Retrieve the comment of each mood and add it as tag to each comment button
+     */
     private void setCommentToButton() {
-        arrayHistoric = utils.retrieveArrayOfMood(this);
+        arrayHistoric = retrieveArrayOfMood(this);
         for (int i = 0; i < arrayHistoric.length; i++) {
             int buttonId = getResources().getIdentifier("button" +(i+1), "id", getPackageName());
             commentButton = findViewById(buttonId);

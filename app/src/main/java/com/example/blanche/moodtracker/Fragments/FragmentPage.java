@@ -1,7 +1,6 @@
 package com.example.blanche.moodtracker.Fragments;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,10 +18,9 @@ import android.widget.RelativeLayout;
 import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.controller.HistoricActivity;
 import com.example.blanche.moodtracker.controller.Utils;
-import com.example.blanche.moodtracker.models.Mood;
 
 import static com.example.blanche.moodtracker.controller.MainActivity.APP_PREFERENCES;
-import static com.example.blanche.moodtracker.controller.MainActivity.KEY_MOOD_SELECTED;
+
 
 
 /**
@@ -30,7 +28,7 @@ import static com.example.blanche.moodtracker.controller.MainActivity.KEY_MOOD_S
  */
 public class FragmentPage extends Fragment {
 
-    private Utils utils = new Utils();
+
 
     //create keys for the bundle
     private static final String KEY_POSITION = "position";
@@ -56,7 +54,6 @@ public class FragmentPage extends Fragment {
         return fragment;
     }
 
-    //ENREGISTRER DANS CETTE METHODE LA CURRENT MOOD SELECTED?
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
