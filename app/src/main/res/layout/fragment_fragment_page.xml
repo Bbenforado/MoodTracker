@@ -21,6 +21,15 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/ic_note_add_black"/>
 
+    <Button
+        android:id="@+id/buttonShare"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_action_share"
+        />
 
     <Button
         android:id="@+id/historicButton"

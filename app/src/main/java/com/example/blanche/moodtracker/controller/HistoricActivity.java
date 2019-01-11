@@ -22,8 +22,14 @@ import static com.example.blanche.moodtracker.controller.Utils.retrieveArrayOfMo
 public class HistoricActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private String[] textForTextView = {"Il y'a 7 jours", "Il y'a 6 jours", "Il y'a 5 jours", "Il y'a 4 jours",
-            "Il y'a 3 jours", "Avant-hier", "Hier"};
+    private String[] textForTextView = {"Il y'a 7 jours",
+            "Il y'a 6 jours",
+            "Il y'a 5 jours",
+            "Il y'a 4 jours",
+            "Il y'a 3 jours",
+            "Avant-hier",
+            "Hier"
+    };
     private Mood[] arrayHistoric = new Mood[7];
     ViewGroup.LayoutParams layoutParams;
     private Button commentButton;
@@ -34,25 +40,34 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
     private Button button5;
     private Button button6;
     private Button button7;
+    private int width;
+    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historic);
+        System.out.println("ON CREATE HISTORIC");
 
         this.displayHistoric();
         this.linkTheWidgets();
         this.setTheOnClickListener();
-        //quand un bouton est cliqué on disable les autres
     }
 
-    //display historic
+    /**
+     * Display the historic views depending on each mood saved, and if there is a comment saved or not
+     * Super happy mood = yellow background and full size width
+     * happy mood = green background and 4/5 of width
+     * normal mood = blue background and 3/5 of width
+     * disappointed mood = grey background and 2/5 of width
+     * sad mood = red background and 1/5 of width
+     */
     private void displayHistoric() {
         arrayHistoric = retrieveArrayOfMood(this);
 
         for (int i = 0; i < arrayHistoric.length; i++) {
             int textViewId = getResources().getIdentifier("text" +(i+1), "id", getPackageName());
-            TextView text = findViewById(textViewId);
+            text = findViewById(textViewId);
             int layoutId = getResources().getIdentifier("relativeLayout"+(i+1), "id", getPackageName());
             RelativeLayout relativeLayout = findViewById(layoutId);
             int buttonId = getResources().getIdentifier("button" +(i+1), "id", getPackageName());
@@ -61,52 +76,89 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
             if (arrayHistoric[i] != null) {
                 int mood = arrayHistoric[i].getMoodTag();
                 String comment = arrayHistoric[i].getComment();
-                if (comment == null) {
-                    commentButton.setVisibility(View.INVISIBLE);
-                } else {
-                    commentButton.setVisibility(View.VISIBLE);
-                }
-                int width = this.getWidth();
+                setButtonVisibility(comment);
+                width = this.getWidth();
                 text.setText(textForTextView[i]);
 
                 switch (mood) {
                     case 0:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.pink));
-                        text.setText(R.string.noMood);
+                        setParamsForNoMood(relativeLayout);
                         break;
                     case 1:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
+                        setParamsForSuperHappyMood(relativeLayout);
                         break;
                     case 2:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
-                        layoutParams = relativeLayout.getLayoutParams();
-                        layoutParams.width = 4 * width / 5;
-                        relativeLayout.setLayoutParams(layoutParams);
+                        setParamsForHappyMood(relativeLayout);
                         break;
                     case 3:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
-                        layoutParams = relativeLayout.getLayoutParams();
-                        layoutParams.width = 3 * width / 5;
-                        relativeLayout.setLayoutParams(layoutParams);
+                        setParamsForNormalMood(relativeLayout);
                         break;
                     case 4:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
-                        layoutParams = relativeLayout.getLayoutParams();
-                        layoutParams.width = 2 * width / 5;
-                        relativeLayout.setLayoutParams(layoutParams);
+                       setParamsForDisappointedMood(relativeLayout);
                         break;
                     case 5:
-                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
-                        layoutParams = relativeLayout.getLayoutParams();
-                        layoutParams.width = width / 5;
-                        relativeLayout.setLayoutParams(layoutParams);
+                        setParamsForSadMood(relativeLayout);
                 }
             } else {
-                relativeLayout.setBackgroundColor(getResources().getColor(R.color.pink));
-                text.setText(R.string.noHistoric);
-                commentButton.setVisibility(View.INVISIBLE);
+                setParamsForNoHistoric(relativeLayout);
             }
         }
+    }
+
+    private void setButtonVisibility(String comment) {
+        if (comment == null) {
+            commentButton.setVisibility(View.INVISIBLE);
+        } else {
+            commentButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Set the background color and the width for each RelativeLayout, depending on the mood saved
+     * @param relativeLayout TextView+Comment Button, which represents a mood
+     */
+
+    private void setParamsForSuperHappyMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.banana_yellow));
+    }
+
+    private void setParamsForHappyMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.light_sage));
+        layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.width = 4 * width / 5;
+        relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    private void setParamsForNormalMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.cornflower_blue_65));
+        layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.width = 3 * width / 5;
+        relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    private void setParamsForDisappointedMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.warm_grey));
+        layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.width = 2 * width / 5;
+        relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    private void setParamsForSadMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.faded_red));
+        layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.width = width / 5;
+        relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    private void setParamsForNoHistoric(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.pink));
+        text.setText(R.string.noHistoric);
+        commentButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void setParamsForNoMood(RelativeLayout relativeLayout) {
+        relativeLayout.setBackgroundColor(getResources().getColor(R.color.pink));
+        text.setText(R.string.noMood);
     }
 
     /**
@@ -117,7 +169,7 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
+        width = size.x;
         return width;
     }
 
@@ -145,7 +197,6 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    //link the widgets
     private void linkTheWidgets() {
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
