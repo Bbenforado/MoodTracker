@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.blanche.moodtracker.controller.MainActivity">
+        tools:context="com.example.blanche.moodtracker.controller.Activities.MainActivity">
 
         <com.example.blanche.moodtracker.controller.VerticalViewPager
             android:id="@+id/activity_main_viewPager"

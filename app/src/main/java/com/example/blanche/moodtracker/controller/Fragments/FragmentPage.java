@@ -1,4 +1,4 @@
-package com.example.blanche.moodtracker.Fragments;
+package com.example.blanche.moodtracker.controller.Fragments;
 
 
 import android.content.DialogInterface;
@@ -7,16 +7,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.example.blanche.moodtracker.R;
-import com.example.blanche.moodtracker.controller.HistoricActivity;
-import static com.example.blanche.moodtracker.controller.MainActivity.APP_PREFERENCES;
+import com.example.blanche.moodtracker.controller.Activities.HistoricActivity;
+
+
+import static com.example.blanche.moodtracker.controller.Activities.MainActivity.APP_PREFERENCES;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +48,6 @@ public class FragmentPage extends Fragment {
         args.putInt(KEY_IMAGE, image);
         args.putString(KEY_TEXT, text);
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -109,6 +112,7 @@ public class FragmentPage extends Fragment {
     private void displayAlertDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         final EditText editText = new EditText(v.getContext());
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         builder.setMessage("Commentaire:")
                 .setView(editText)
                 .setPositiveButton("Valider", new DialogInterface.OnClickListener() {
@@ -124,9 +128,17 @@ public class FragmentPage extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
-                })
-                .create()
-                .show();
+                });
+        AlertDialog alertDialog = builder.create();
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    alertDialog.getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+        alertDialog.show();
     }
 
     private void initHistoricButton(View v) {
@@ -144,10 +156,19 @@ public class FragmentPage extends Fragment {
     private void shareIt(View v) {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = (String) v.getTag();
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "My mood today");
+        //retrieve the comment
+        SharedPreferences preferences = getContext().getSharedPreferences(APP_PREFERENCES, 0);
+        String comment = preferences.getString(KEY_COMMENT, null);
+        String shareBody;
+        //if there's a comment display it
+        if(comment != null) {
+            shareBody = v.getTag() + "\n\nCommentaire:\n" + comment + "\n\n-Partagé avec MoodTracker-";
+        } else {
+            shareBody = v.getTag() +"\n\n-Partagé avec MoodTracker-" ;
+        }
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.subject);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        startActivity(Intent.createChooser(sharingIntent, "partager via"));
     }
 
 

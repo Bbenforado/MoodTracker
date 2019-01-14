@@ -19,7 +19,6 @@ public class Mood {
     }
 
     //getters
-
     public int getMoodTag() {
         return moodTag;
     }

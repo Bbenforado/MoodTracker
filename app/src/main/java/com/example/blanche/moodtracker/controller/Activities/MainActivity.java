@@ -1,14 +1,15 @@
-package com.example.blanche.moodtracker.controller;
+package com.example.blanche.moodtracker.controller.Activities;
 
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.adapters.PageAdapter;
+import com.example.blanche.moodtracker.controller.VerticalViewPager;
 import com.example.blanche.moodtracker.models.Mood;
 import java.util.Calendar;
-
-import static com.example.blanche.moodtracker.Fragments.FragmentPage.KEY_COMMENT;
+import java.util.TimeZone;
+import static com.example.blanche.moodtracker.controller.Fragments.FragmentPage.KEY_COMMENT;
 import static com.example.blanche.moodtracker.controller.Utils.addMood;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("ON START MAIN");
         checkTime();
     }
 
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("ON CREATE MAIN");
 
         preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("ON STOP MAIN");
         saveMood();
         saveDate();
     }
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
      * Save the mood selected in the preferences (KEY_MOOD_SELECTED)
      */
     private void saveMood() {
-        //get the current fragment selected
+        //get the current fragment selected and add one because the moodtag begins to 1, not 0
         int currentFragment = verticalViewPager.getCurrentItem() + 1;
         //save in the preferences the current mood selected
         preferences.edit().putInt(KEY_MOOD_SELECTED, currentFragment).apply();
@@ -61,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
      * Save the date in the preferences (KEY_DATE)
      */
     private void saveDate() {
+        TimeZone timeZone = TimeZone.getDefault();
         long timeWhenSaved = Calendar.getInstance().getTimeInMillis();
+        timeWhenSaved = timeWhenSaved+timeZone.getDSTSavings();
         preferences.edit().putLong(KEY_DATE, timeWhenSaved).apply();
-        System.out.println("datewhensaved = " + preferences.getLong(KEY_DATE, 0));
     }
 
     private void configureVerticalViewPager() {
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Determine what fragment to display when we launch the app, depending on if a mood is already saved or not
+     * Determines which fragment to display when we launch the app, depending on if a mood is already saved or not
      */
     private void setTheDefaultFragment() {
         int lastMoodSelected = preferences.getInt(KEY_MOOD_SELECTED, 0);
@@ -93,27 +92,26 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkTime() {
         //retrieve the date saved when we saved the last mood
-        long timeWhenSaved = preferences.getLong(KEY_DATE, 0);
-        System.out.println("time when saved = " + timeWhenSaved);
+        long timeWhenSaved = preferences.getLong(KEY_DATE, 0);;
 
         if (timeWhenSaved != 0) {
-            //get the current date
-            long currentDate = Calendar.getInstance().getTimeInMillis();
-            System.out.println("current date = " + currentDate);
+            //get the current time
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            TimeZone timeZone = TimeZone.getDefault();
+            currentTime = currentTime+timeZone.getDSTSavings();
             //get the time when we saved at midnight (at the beginning of the day)
             long timeRemain = timeWhenSaved % DAY_IN_MILLIS;
-            System.out.println("timeremain = " + timeRemain);
-            long atMidnight = timeWhenSaved - timeRemain;
+            long atStartOfTheDay = timeWhenSaved - timeRemain;
             //see how many days passed between current time and last day we saved mood(at midnight)
-            long timeBetween = currentDate - atMidnight;
+            long timeBetween = currentTime - atStartOfTheDay;
+            double nbrOfDay = Math.floor(timeBetween/DAY_IN_MILLIS);
             if(timeBetween >= DAY_IN_MILLIS) {
-                double nbrOfDay = Math.floor(timeBetween/DAY_IN_MILLIS);
                 if(nbrOfDay != 0) {
                     //for each day passed we create a mood
                     for(int i = 0; i < nbrOfDay; i ++) {
-                        retrievePassedMood(nbrOfDay);
-                        System.out.println("days between  = " + nbrOfDay);
+                        retrievePassedMood();
                     }
+                    setTheDefaultFragment();
                 }
             }
         }
@@ -125,16 +123,13 @@ public class MainActivity extends AppCompatActivity {
         preferences.edit().putLong(KEY_DATE, 0).apply();
     }
 
-    private void retrievePassedMood(double daysBetween) {
-        for (int i = 0; i < daysBetween; i++) {
+    private void retrievePassedMood() {
             int mood = preferences.getInt(KEY_MOOD_SELECTED, 0);
             String comment = preferences.getString(KEY_COMMENT, null);
-
             Mood newMood = new Mood(comment, mood);
             addMood(this, newMood);
 
             setPreferencesToNull();
-        }
     }
 }
 

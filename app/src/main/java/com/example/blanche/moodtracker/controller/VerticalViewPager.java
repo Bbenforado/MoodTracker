@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 public class VerticalViewPager extends ViewPager {
 
     public VerticalViewPager(Context context) {
@@ -56,7 +55,6 @@ public class VerticalViewPager extends ViewPager {
         return ev;
     }
 
-
     private static final class VerticalPageTransformer implements ViewPager.PageTransformer {
         @Override
         public void transformPage(View view, float position) {
@@ -74,6 +72,5 @@ public class VerticalViewPager extends ViewPager {
             }
         }
     }
-
 }
 

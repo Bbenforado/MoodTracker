@@ -3,7 +3,7 @@ package com.example.blanche.moodtracker.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.example.blanche.moodtracker.Fragments.FragmentPage;
+import com.example.blanche.moodtracker.controller.Fragments.FragmentPage;
 import com.example.blanche.moodtracker.R;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -24,7 +24,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     private String[] contentToShare = {
             "J'ai trop la pêche!",
             "Tout roule!",
-            "Rien de ouf aujourd'hui...",
+            "Rien de fou aujourd'hui...",
             "ça va moyen-moyen...",
             "Trop déprimé(e) aujourd'hui..."
     };
@@ -47,7 +47,6 @@ public class PageAdapter extends FragmentPagerAdapter {
         return FragmentPage.newInstance(position, this.backgroundColorsArray[position], this.smileysImagesArray[position], this.contentToShare[position]);
     }
 
-
     /**
      * Number of pages to create
      * @return the number of pages we want
@@ -56,10 +55,4 @@ public class PageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return NUMBER_OF_PAGES;
     }
-
-
-
-
-
-
 }

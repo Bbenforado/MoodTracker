@@ -1,5 +1,4 @@
-package com.example.blanche.moodtracker.controller;
-
+package com.example.blanche.moodtracker.controller.Activities;
 
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +10,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.example.blanche.moodtracker.R;
 import com.example.blanche.moodtracker.models.Mood;
-
 import static com.example.blanche.moodtracker.controller.Utils.retrieveArrayOfMood;
 
 
 public class HistoricActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     private String[] textForTextView = {"Il y'a 7 jours",
             "Il y'a 6 jours",
@@ -47,7 +42,6 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historic);
-        System.out.println("ON CREATE HISTORIC");
 
         this.displayHistoric();
         this.linkTheWidgets();
@@ -77,8 +71,9 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
                 int mood = arrayHistoric[i].getMoodTag();
                 String comment = arrayHistoric[i].getComment();
                 setButtonVisibility(comment);
-                width = this.getWidth();
                 text.setText(textForTextView[i]);
+                commentButton.setTag(comment);
+                width = this.getWidth();
 
                 switch (mood) {
                     case 0:
@@ -104,6 +99,10 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
+
+    /**
+     * Retrieve the comment of each mood and add it as tag to each comment button
+     */
 
     private void setButtonVisibility(String comment) {
         if (comment == null) {
@@ -179,22 +178,8 @@ public class HistoricActivity extends AppCompatActivity implements View.OnClickL
      */
     @Override
     public void onClick(View v) {
-        setCommentToButton();
         String comment = v.getTag().toString();
         Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Retrieve the comment of each mood and add it as tag to each comment button
-     */
-    private void setCommentToButton() {
-        arrayHistoric = retrieveArrayOfMood(this);
-        for (int i = 0; i < arrayHistoric.length; i++) {
-            int buttonId = getResources().getIdentifier("button" +(i+1), "id", getPackageName());
-            commentButton = findViewById(buttonId);
-            String comment = arrayHistoric[i].getComment();
-            commentButton.setTag(comment);
-        }
     }
 
     private void linkTheWidgets() {

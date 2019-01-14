@@ -6,7 +6,7 @@ import com.example.blanche.moodtracker.models.Mood;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import static com.example.blanche.moodtracker.controller.MainActivity.APP_PREFERENCES;
+import static com.example.blanche.moodtracker.controller.Activities.MainActivity.APP_PREFERENCES;
 
 public class Utils {
 
@@ -49,7 +49,7 @@ public class Utils {
         }.getType();
 
         arrayOfMood = gson.fromJson(json, type);
-        //if the array of mood isn't initialized, we initialized it
+        //if the array of mood isn't initialized, we initialize it
         if (arrayOfMood == null) {
             arrayOfMood = new Mood[7];
         }
